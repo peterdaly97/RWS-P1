@@ -7,11 +7,19 @@
 function main()
 {
 	this.input = new Input();
+	this.input.addKeyHandler(myGetKeys); // specifying the keyboard handler
+	this.input.addKeyHandler(myGetKeysForMenu);
+
 }
 
-function getKeys(key)
+function myGetKeys(keys)
 {
-	console.log(key);
+	console.log(keys);
+}
+
+function myGetKeysForMenu(keys)
+{
+
 }
 
 function getMouse(mousePos, direction)

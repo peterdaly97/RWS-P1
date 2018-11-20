@@ -2,32 +2,38 @@
 
 class Input {
   constructor() {
-    this.key = null;
+    this.keys = [];
     this.x = 0;
     this.y = 0;
     this.mouseDirection = null;
     this.gamepads = [];
+    this.keyHandlers = [];
 
     var that = this;
 
     window.addEventListener("keydown", this.keyDownHandler.bind(null, that));
+    window.addEventListener("keyup", this.keyUpHandler.bind(null, that));
+
     window.addEventListener("mousemove", this.mousePos.bind(null, that));
+
     window.addEventListener("gamepadconnected",
     this.controllerConnect.bind(null, that, true));
     window.addEventListener("gamepaddisconnected",
     this.controllerConnect.bind(null, that, false));
   }
 
-  buttonPressed(b)
-  {
+  addKeyHandler(name) {
+    this.keyHandlers.push(name);
+  }
+
+  buttonPressed(b) {
     if (typeof(b) == "object") {
       return b.pressed;
     }
     return b == 1.0;
   }
 
-  update()
-  {
+  update() {
     this.gamepads = navigator.getGamepads();
     if (!this.gamepads) {
       return;
@@ -89,8 +95,7 @@ class Input {
 
 
 
-  controllerConnect (that, connecting, e)
-  {
+  controllerConnect (that, connecting, e) {
     var gamepad = event.gamepad;
 
     if (connecting) {
@@ -107,10 +112,20 @@ class Input {
 
   }
 
-  keyDownHandler (that, e)
-  {
-    that.key = e.key;
-    getKeys(that.key);
+  keyDownHandler (that, e) {
+    if(!that.keys.includes(e.key)) {
+      that.keys.push(e.key);
+    }
+    that.keyHandlers.forEach(function(element) {
+      element(that.keys);
+    });
+  }
+
+  keyUpHandler (that, e) {
+    var index = that.keys.indexOf(e.key);
+    if (index > -1) {
+      that.keys.splice(index, 1);
+    }
   }
 
   mousePos (that, e)
