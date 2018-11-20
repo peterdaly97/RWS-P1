@@ -1,4 +1,9 @@
-
+/*
+ * Peter Daly
+ * Component to allow for easier processing of user input
+ * Days worked on: 30/10/18 - 20/11/18
+ *
+ */
 
 class Input {
   constructor() {
@@ -8,6 +13,7 @@ class Input {
     this.mouseDirection = null;
     this.gamepads = [];
     this.keyHandlers = [];
+    this.buttonsPressed = [];
 
     var that = this;
 
@@ -22,15 +28,12 @@ class Input {
     this.controllerConnect.bind(null, that, false));
   }
 
-  addKeyHandler(name) {
-    this.keyHandlers.push(name);
+  addUpdateLoop(name, loop) {
+    setInterval(name, loop);
   }
 
-  buttonPressed(b) {
-    if (typeof(b) == "object") {
-      return b.pressed;
-    }
-    return b == 1.0;
+  addKeyHandler(name) {
+    this.keyHandlers.push(name);
   }
 
   update() {
@@ -39,61 +42,39 @@ class Input {
       return;
     }
     var pad;
+    var pair;
     for(pad of this.gamepads) {
       if(pad) {
-        if(pad.buttons[0].pressed) {
-          console.log("A");
-        }
-        if(pad.buttons[1].pressed) {
-          console.log("B");
-        }
-        if(pad.buttons[2].pressed) {
-          console.log("X");
-        }
-        if(pad.buttons[3].pressed) {
-          console.log("Y");
-        }
-        if(pad.buttons[4].pressed) {
-          console.log("LB");
-        }
-        if(pad.buttons[5].pressed) {
-          console.log("RB");
-        }
-        if(pad.buttons[6].pressed) {
-          console.log("LT");
-        }
-        if(pad.buttons[7].pressed) {
-          console.log("RT");
-        }
-        if(pad.buttons[8].pressed) {
-          console.log("Back");
-        }
-        if(pad.buttons[9].pressed) {
-          console.log("Start");
-        }
-        if(pad.buttons[10].pressed) {
-          console.log("Left Thumbstick");
-        }
-        if(pad.buttons[11].pressed) {
-          console.log("Right Thumbstick");
-        }
-        if(pad.buttons[12].pressed) {
-          console.log("Up");
-        }
-        if(pad.buttons[13].pressed) {
-          console.log("Down");
-        }
-        if(pad.buttons[14].pressed) {
-          console.log("Left");
-        }
-        if(pad.buttons[15].pressed) {
-          console.log("Right");
+        for(var i = 0; i < 16; i++) {
+          pair = [pad.index, i];
+          if(pad.buttons[i].pressed > 0.9 && this.includes(this.buttonsPressed, pair) == -1) {
+            this.buttonsPressed.push([pad.index, i]);
+          }
+          else {
+            var index = this.includes(this.buttonsPressed, pair);
+            if (index > -1) {
+              this.buttonsPressed.splice(index, 1);
+            }
+          }
         }
       }
+
     }
+      return this.buttonsPressed;
   }
 
+  includes(arr1, arr2) {
+    var index = 0;
+    var retIndex = -1;
+    arr1.forEach(function(element) {
+      if(element[0] == arr2[0] && element[1] == arr2[1]) {
+        retIndex = index;
+      }
+      index++;
+    });
 
+    return retIndex;
+  }
 
   controllerConnect (that, connecting, e) {
     var gamepad = event.gamepad;
@@ -102,12 +83,10 @@ class Input {
       console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
       gamepad.index, gamepad.id,
       gamepad.buttons.length, gamepad.axes.length);
-      that.gamepads[gamepad.index] = gamepad;
     } else {
       console.log("Gamepad disconnected at index %d: %s. %d buttons, %d axes.",
       gamepad.index, gamepad.id,
       gamepad.buttons.length, gamepad.axes.length);
-      delete that.gamepads[gamepad.index];
     }
 
   }
