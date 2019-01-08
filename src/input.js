@@ -15,6 +15,9 @@ class Input {
     this.keyHandlers = [];
     this.buttonsPressed = [];
 
+    this.holdValue = 0;
+    this.holdTimer = 0;
+
     var that = this;
 
     window.addEventListener("keydown", this.keyDownHandler.bind(null, that));
@@ -34,6 +37,10 @@ class Input {
 
   addKeyHandler(name) {
     this.keyHandlers.push(name);
+  }
+
+  setHoldValue(val) {
+    this.holdValue = val;
   }
 
   update() {
@@ -92,11 +99,15 @@ class Input {
   }
 
   keyDownHandler (that, e) {
+    that.holdTimer++;
     if(!that.keys.includes(e.key)) {
       that.keys.push(e.key);
     }
     that.keyHandlers.forEach(function(element) {
-      element(that.keys);
+      if(that.holdTimer > that.holdValue) {
+        that.holdTimer = 0;
+        element(that.keys);
+      }
     });
   }
 

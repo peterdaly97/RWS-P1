@@ -8,6 +8,7 @@ function main() {
 
 	// specifying the gamepad handler
 	this.input.addUpdateLoop(onTimerTick, 33);
+	this.input.setHoldValue(20);
 }
 
 // Declare the gamepadhandler function
