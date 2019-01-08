@@ -1,7 +1,7 @@
 /*
  * Peter Daly
  * Component to allow for easier processing of user input
- * Days worked on: 30/10/18 - 20/11/18
+ * Days worked on: 30/10/18 - 8/1/18
  *
  */
 
@@ -17,6 +17,8 @@ class Input {
 
     this.holdValue = 0;
     this.holdTimer = 0;
+
+    this.history = [];
 
     var that = this;
 
@@ -106,6 +108,7 @@ class Input {
     that.keyHandlers.forEach(function(element) {
       if(that.holdTimer > that.holdValue) {
         that.holdTimer = 0;
+        that.history.push(that.keys.slice());
         element(that.keys);
       }
     });

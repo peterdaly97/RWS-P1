@@ -28,6 +28,7 @@ function onTimerTick() {
 // The name of the function is what is passed to
 // the addKeyHandler function
 function myGetKeys(keys) {
+	console.log(this.input.history);
 	console.log(keys);
 }
 
