@@ -138,6 +138,7 @@ class Input {
     that.x = e.clientX;
     that.y = e.clientY;
     getMouse(e, that.mouseDirection);
+
   }
 
 }
