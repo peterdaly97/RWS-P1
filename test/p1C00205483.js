@@ -29,4 +29,11 @@ describe('Input()', function () {
     var index = input.includes(arr1, arr2);
     expect(index).to.equal(2);
   });
+
+  it('Checking that hold value gets correcty set', function () {
+    var input = new Input
+    var holdValue = 20;
+    input.setHoldValue(holdValue);
+    expect(holdValue).to.equal(input.holdValue);
+  });
 });

@@ -16,6 +16,7 @@ class Input {
     this.buttonsPressed = [];
     this.connected = false;
 
+    this.loops = [];
     this.holdValue = 0;
     this.holdTimer = 0;
 
@@ -35,6 +36,7 @@ class Input {
   }
 
   addUpdateLoop(name, loop) {
+    this.loops.push(name);
     setInterval(name, loop);
   }
 

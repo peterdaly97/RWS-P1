@@ -53,7 +53,7 @@ function draw() {
 	}
 
 	this.ctx.clearRect(0,0,1000,1000);
-	this.ctx.fillText("Demo 1: Please follow these instructions", 10, 50);
+	this.ctx.fillText("Demo 3: Please follow these instructions", 10, 50);
 	this.ctx.fillText("Please connect the controller", 10, 200);
 	this.ctx.fillText("Please press the A key", 10, 350);
 	this.ctx.fillText("Please press the B and LB keys", 10, 500);
