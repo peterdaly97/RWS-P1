@@ -1,7 +1,7 @@
 /*
  * Peter Daly
  * Component to allow for easier processing of user input
- * Days worked on: 30/10/18 - 8/1/18
+ * Days worked on: 30/10/18 - 14/1/18
  *
  */
 
