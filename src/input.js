@@ -14,6 +14,7 @@ class Input {
     this.gamepads = [];
     this.keyHandlers = [];
     this.buttonsPressed = [];
+    this.connected = false;
 
     this.holdValue = 0;
     this.holdTimer = 0;
@@ -48,6 +49,7 @@ class Input {
   update() {
     this.gamepads = navigator.getGamepads();
     if (!this.gamepads) {
+      this.connected = false;
       return;
     }
     var pad;
@@ -89,6 +91,7 @@ class Input {
     var gamepad = event.gamepad;
 
     if (connecting) {
+      that.connected = true;
       console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
       gamepad.index, gamepad.id,
       gamepad.buttons.length, gamepad.axes.length);
