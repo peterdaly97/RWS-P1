@@ -22,6 +22,8 @@ class Input {
 
     this.history = [];
 
+    this.binds = {};
+
     var that = this;
 
     window.addEventListener("keydown", this.keyDownHandler.bind(null, that));
@@ -106,9 +108,20 @@ class Input {
   }
 
   keyDownHandler (that, e) {
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+
     that.holdTimer++;
     if(!that.keys.includes(e.key)) {
       that.keys.push(e.key);
+    }
+    console.log(e.key);
+    for(var key in that.binds) {
+      if(key === e.key) {
+        var func = that.binds[key];
+        func();
+      }
     }
     that.keyHandlers.forEach(function(element) {
       if(that.holdTimer > that.holdValue) {
@@ -144,6 +157,10 @@ class Input {
     that.y = e.clientY;
     getMouse(e, that.mouseDirection);
 
+  }
+
+  bind(func, key) {
+    this.binds[key] = func;
   }
 
 }
