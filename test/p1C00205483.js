@@ -36,4 +36,11 @@ describe('Input()', function () {
     input.setHoldValue(holdValue);
     expect(holdValue).to.equal(input.holdValue);
   });
+
+  it('Checking that binded keys get set up correctly', function () {
+    var input = new Input
+    function testFunc() {}
+    input.bind(testFunc, "a");
+    expect(Object.keys(input.binds).length).to.equal(1);
+  });
 });
